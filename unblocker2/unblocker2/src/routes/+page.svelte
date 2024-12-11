@@ -1,5 +1,5 @@
 <script>
-    import Form from '../lib/form.svelte'
+    import Form from '../lib/Form.svelte'
 </script>
 
 <h1>Welcome to SvelteKit</h1>
