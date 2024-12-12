@@ -6,6 +6,14 @@
         'https://powayusd-production.up.railway.app/a/',
     ];
 
+    // Pre-calculated encoded URLs for quick lookup (add your pre-encoded URLs here)
+    const precalculatedUrls: { [key: string]: string } = {
+        'https://google.com': 'hvtrs8%2F-gmoelg.aoo',
+        'https://1v1.lol': 'hvtrs8%2F-1t1%2Clml',
+        'https://youtube.com': 'hvtrs8%2F-ymuvu%60e%2Ccmm',
+        // Add more pre-encoded URLs as needed
+    };
+
     // Select random server when the script runs, no need to recompute this on each reactivity cycle.
     const randomNumber = Math.floor(Math.random() * Servers.length);
     const server = Servers[randomNumber];
@@ -35,6 +43,12 @@
             urlParam = 'No URL available';
         }
 
+        // Cache the encoded URL if it's valid and not cached already
+        if (urlParam && !getCachedUrl(urlParam)) {
+            const encodedUrl = encode(urlParam);
+            cacheUrl(urlParam, encodedUrl);
+        }
+
         // Set the flag once the URL processing is done
         isUrlReady = true;
     });
@@ -58,11 +72,31 @@
                 .join('')
         );
     }
+
+    // Function to cache the encoded URL in localStorage
+    function cacheUrl(originalUrl: string, encodedUrl: string) {
+        if (typeof window !== 'undefined') {
+            localStorage.setItem(`encoded_url_${originalUrl}`, encodedUrl);
+        }
+    }
+
+    // Function to retrieve cached URL
+    function getCachedUrl(originalUrl: string): string | null {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem(`encoded_url_${originalUrl}`);
+        }
+        return null;
+    }
+
+    // Function to check if the URL is in the pre-calculated list
+    function getPrecalculatedUrl(originalUrl: string): string | null {
+        return precalculatedUrls[originalUrl] || null;
+    }
 </script>
 
 {#if isUrlReady}
     <iframe
-        src={server + encode(urlParam ?? '')}
+        src={server + (getPrecalculatedUrl(urlParam ?? '') || getCachedUrl(urlParam ?? '') || encode(urlParam ?? ''))}
         title="Page embed"
         style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"
     >
