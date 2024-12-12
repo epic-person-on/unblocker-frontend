@@ -1,5 +1,9 @@
 <script lang="ts">
+    import MetaData from '$lib/scriptinjection.svelte'
     import { onMount } from 'svelte';
+
+    //Constant hostname
+    let host = window.location.protocol + "//" + window.location.host;
 
     // A constant array of servers. Using const is optimal as we don't mutate it.
     const Servers = [
@@ -11,7 +15,8 @@
         'https://google.com': 'hvtrs8%2F-gmoelg.aoo',
         'https://1v1.lol': 'hvtrs8%2F-1t1%2Clml',
         'https://youtube.com': 'hvtrs8%2F-ymuvu%60e%2Ccmm',
-        // Add more pre-encoded URLs as needed
+        host : '',
+
     };
 
     // Select random server when the script runs, no need to recompute this on each reactivity cycle.
@@ -103,3 +108,6 @@
         Your browser doesn't support iframes
     </iframe>
 {/if}
+
+<MetaData />
+

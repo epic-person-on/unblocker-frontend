@@ -1,9 +1,9 @@
 <script>
     import { onMount } from 'svelte';
     import Form from '$lib/Form.svelte';
-	  import Navbar from '$lib/Navbar.svelte';
-    import MetaData from '$lib/scriptinjection.svelte'
-  
+    import Navbar from '$lib/Navbar.svelte';
+    import MetaData from '$lib/scriptinjection.svelte';
+    
     let isDarkMode = true;
   
     // Check localStorage for saved theme preference
@@ -37,13 +37,15 @@
     };
   </script>
   
-  <!-- svelte-ignore css_unused_selector -->
+<!-- svelte-ignore css_unused_selector -->
   <style>
     body {
       transition: background-color 0.3s ease, color 0.3s ease;
     }
   </style>
+  
   <MetaData />
+  
   <!-- Main Content -->
   <main class="min-h-screen bg-gray-100 dark:bg-gray-800 transition-all duration-500 ease-in-out">
     <!-- Navigation Menu -->
@@ -51,10 +53,12 @@
       <div class="container mx-auto flex justify-between items-center">
         <!-- Logo / Brand -->
         <div class="text-xl font-semibold text-gray-800 dark:text-white">
-          Code Tutorials
+          My New Page
         </div>
-      <!-- NavBar -->
+  
+        <!-- NavBar -->
         <Navbar />
+  
         <!-- Light/Dark Mode Toggle Button -->
         <button 
           on:click={toggleTheme} 
@@ -66,8 +70,8 @@
     </nav>
   
     <!-- Main Content Section -->
-    <div class="flex justify-center items-center min-h-screen py-12 px-6">
-      <Form />
+    <div class="flex justify-center items-center min-h-screen py-12 px-6 ">
+
     </div>
   </main>
-     
+  
