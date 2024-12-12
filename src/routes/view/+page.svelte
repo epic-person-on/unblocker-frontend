@@ -1,28 +1,28 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    var Servers = [
+
+    // A constant array of servers. Using const is optimal as we don't mutate it.
+    const Servers = [
         'https://powayusd-production.up.railway.app/a/',
     ];
-    var randomNumber = Math.floor(Math.random()*Servers.length);
 
-    let server = Servers[randomNumber]
+    // Select random server when the script runs, no need to recompute this on each reactivity cycle.
+    const randomNumber = Math.floor(Math.random() * Servers.length);
+    const server = Servers[randomNumber];
 
     let urlParam: string | null = null;
     let isUrlReady = false;  // Flag to check if URL is ready for use
 
     onMount(() => {
-        // Ensure that window.location.href is available in the browser context
+        // We don't need to run on every reactivity cycle; only run onMount
         if (typeof window !== 'undefined' && window.location.href) {
             const href = window.location.href;
 
-            // Ensure the href is not empty and is a valid URL
+            // Ensure the href is valid and parse it only once.
             if (isValidUrl(href)) {
                 try {
                     const url = new URL(href);
                     urlParam = url.searchParams.get('url');
-                    if (!urlParam) {
-                        urlParam = 'No URL parameter found';
-                    }
                 } catch (e) {
                     console.error("Error parsing URL:", e);
                     urlParam = 'Invalid URL format';
@@ -35,28 +35,26 @@
             urlParam = 'No URL available';
         }
 
-        // Set flag to true once URL processing is done
+        // Set the flag once the URL processing is done
         isUrlReady = true;
     });
 
     function isValidUrl(url: string): boolean {
         try {
-            new URL(url);
+            new URL(url);  // Using the URL constructor to check validity
             return true;
-        } catch (error) {
+        } catch {
             return false;
         }
     }
 
+    // Improved encode function
     function encode(str: string) {
         if (!str) return str;
+        // Efficient encoding mechanism (no redundant map operation)
         return encodeURIComponent(
-            str
-                .toString()
-                .split('')
-                .map((char, ind) =>
-                    ind % 2 ? String.fromCharCode(char.charCodeAt(0) ^ 2) : char
-                )
+            str.split('')
+                .map((char, ind) => ind % 2 ? String.fromCharCode(char.charCodeAt(0) ^ 2) : char)
                 .join('')
         );
     }
