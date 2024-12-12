@@ -1,8 +1,9 @@
 <script>
     import { onMount } from 'svelte';
     import Form from '../lib/Form.svelte';
+	  import Navbar from '$lib/Navbar.svelte';
   
-    let isDarkMode = false;
+    let isDarkMode = true;
   
     // Check localStorage for saved theme preference
     onMount(() => {
@@ -50,20 +51,8 @@
         <div class="text-xl font-semibold text-gray-800 dark:text-white">
           My App
         </div>
-        
-        <!-- Menu Items -->
-        <ul class="flex space-x-6">
-          <li>
-            <a href="#home" class="text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 transition-all duration-300">Home</a>
-          </li>
-          <li>
-            <a href="#about" class="text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 transition-all duration-300">About</a>
-          </li>
-          <li>
-            <a href="#contact" class="text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 transition-all duration-300">Contact</a>
-          </li>
-        </ul>
-  
+      <!-- NavBar -->
+        <Navbar />
         <!-- Light/Dark Mode Toggle Button -->
         <button 
           on:click={toggleTheme} 

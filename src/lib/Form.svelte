@@ -5,6 +5,7 @@
     const handleSubmit = (event: SubmitEvent): void => {
       event.preventDefault();
       console.log(url); // Handle URL submission logic
+      window.location.href = '/view?url=' + url;
     };
   
     // Function to handle clicking a quick link
