@@ -13,7 +13,7 @@
     };
   </script>
   
-  <div class="w-full max-w-sm bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-lg transition-all duration-500 ease-in-out">
+  <div class="w-full max-w-sm bg-gray-200 dark:bg-gray-800 p-6 rounded-lg shadow-lg transition-all duration-500 ease-in-out">
     <!-- Form -->
     <form on:submit={handleSubmit} class="space-y-4">
       <!-- Input Field for URL -->
@@ -24,7 +24,7 @@
           type="url"
           bind:value={url}
           placeholder="https://example.com"
-          class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 transition-all duration-500 ease-in-out"
+          class="w-full p-3 border border-gray-500 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 transition-all duration-500 ease-in-out"
           required
         />
       </div>
