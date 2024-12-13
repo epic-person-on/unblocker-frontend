@@ -1,28 +1,21 @@
-# sv
+# Unblocker2
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Everything you need to host the frontend of Unblocker2
 
-## Creating a project
+## Description
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
+Unblocker2 is a web proxy for bypassing web filters by redirecting traffic to a remote server then returns the response to the client. This specific web proxy is uses a "proxy" made by Titanium Network called "Ultraviolet". This is only the frontend which is what the user sees when they open the website. Unblocker2 is a "proxy" made in sveltekit.
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+to contribute fork this and give it a star ⭐
+next create a Github codespace and start developing. 
+one you are done with your edits create a pull request for me to review.
 
 ```bash
 npm run dev
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+# Use this to start the server
 ```
 
 ## Building
@@ -35,4 +28,6 @@ npm run build
 
 You can preview the production build with `npm run preview`.
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+>[!NOTE]
+> This comes with the netlify adapter, you can change this is package.json
+ 
