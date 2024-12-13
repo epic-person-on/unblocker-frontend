@@ -1,37 +1,28 @@
 <script lang="ts">
-    import MetaData from '$lib/scriptinjection.svelte'
-    import { onMount } from 'svelte';
+    import { onMount, afterUpdate } from 'svelte';
 
-    //Constant hostname
-    let host = window.location.protocol + "//" + window.location.host;
-
-    // A constant array of servers. Using const is optimal as we don't mutate it.
+    // Server list for random selection
     const Servers = [
         'https://powayusd-production.up.railway.app/a/',
     ];
 
-    // Pre-calculated encoded URLs for quick lookup (add your pre-encoded URLs here)
+    // Precalculated URLs for some known URLs
     const precalculatedUrls: { [key: string]: string } = {
         'https://google.com': 'hvtrs8%2F-gmoelg.aoo',
-        'https://1v1.lol': 'hvtrs8%2F-1t1%2Clml',
-        'https://youtube.com': 'hvtrs8%2F-ymuvu%60e%2Ccmm',
-        host : '',
-
     };
 
-    // Select random server when the script runs, no need to recompute this on each reactivity cycle.
+    // Select a random server from the list
     const randomNumber = Math.floor(Math.random() * Servers.length);
     const server = Servers[randomNumber];
 
     let urlParam: string | null = null;
-    let isUrlReady = false;  // Flag to check if URL is ready for use
+    let iframeSrc: string | null = null;
+    let MetaData: any;
 
-    onMount(() => {
-        // We don't need to run on every reactivity cycle; only run onMount
+    // Function to parse and fetch URL param asynchronously
+    async function fetchUrlParam() {
         if (typeof window !== 'undefined' && window.location.href) {
             const href = window.location.href;
-
-            // Ensure the href is valid and parse it only once.
             if (isValidUrl(href)) {
                 try {
                     const url = new URL(href);
@@ -43,34 +34,41 @@
             } else {
                 urlParam = 'Invalid URL';
             }
-        } else {
-            console.error("Window is not defined or location.href is missing");
-            urlParam = 'No URL available';
-        }
 
-        // Cache the encoded URL if it's valid and not cached already
-        if (urlParam && !getCachedUrl(urlParam)) {
-            const encodedUrl = encode(urlParam);
-            cacheUrl(urlParam, encodedUrl);
+            // Initialize iframe source URL
+            if (urlParam) {
+                iframeSrc = server + (getPrecalculatedUrl(urlParam) || getCachedUrl(urlParam) || encode(urlParam));
+            }
         }
+    }
 
-        // Set the flag once the URL processing is done
-        isUrlReady = true;
+    // Lazy load the MetaData component
+    async function loadMetaData() {
+        MetaData = (await import('$lib/scriptinjection.svelte')).default;
+    }
+
+    onMount(async () => {
+        await fetchUrlParam();
+        await loadMetaData();
     });
 
+    afterUpdate(() => {
+        // If you need to perform any updates after changes, handle them here
+    });
+
+    // Utility function to validate a URL
     function isValidUrl(url: string): boolean {
         try {
-            new URL(url);  // Using the URL constructor to check validity
+            new URL(url);
             return true;
         } catch {
             return false;
         }
     }
 
-    // Improved encode function
+    // Encode function for obfuscating URLs (can be adjusted as per need)
     function encode(str: string) {
         if (!str) return str;
-        // Efficient encoding mechanism (no redundant map operation)
         return encodeURIComponent(
             str.split('')
                 .map((char, ind) => ind % 2 ? String.fromCharCode(char.charCodeAt(0) ^ 2) : char)
@@ -78,14 +76,14 @@
         );
     }
 
-    // Function to cache the encoded URL in localStorage
+    // Cache the encoded URL in localStorage
     function cacheUrl(originalUrl: string, encodedUrl: string) {
         if (typeof window !== 'undefined') {
             localStorage.setItem(`encoded_url_${originalUrl}`, encodedUrl);
         }
     }
 
-    // Function to retrieve cached URL
+    // Get the cached URL from localStorage
     function getCachedUrl(originalUrl: string): string | null {
         if (typeof window !== 'undefined') {
             return localStorage.getItem(`encoded_url_${originalUrl}`);
@@ -93,21 +91,57 @@
         return null;
     }
 
-    // Function to check if the URL is in the pre-calculated list
+    // Get precalculated URL if available
     function getPrecalculatedUrl(originalUrl: string): string | null {
         return precalculatedUrls[originalUrl] || null;
     }
+
+    // Main function to handle input and change iframe URL
+    function changeIframeUrl() {
+        let inputUrl = (document.getElementById('urlInput') as HTMLInputElement).value;
+
+        // Check if the input URL is missing the protocol and add 'https://'
+        if (inputUrl && !inputUrl.startsWith('http://') && !inputUrl.startsWith('https://')) {
+            inputUrl = 'https://' + inputUrl;
+        }
+
+        // If the input is a valid URL, process it as a URL
+        if (inputUrl && isValidUrl(inputUrl)) {
+            urlParam = inputUrl;
+            const encodedUrl = encode(inputUrl); // Encode the URL
+            cacheUrl(inputUrl, encodedUrl);
+            iframeSrc = server + (getPrecalculatedUrl(urlParam ?? '') || getCachedUrl(urlParam ?? '') || encodedUrl);
+        } else if (inputUrl && inputUrl.trim().length > 0) {
+            // If the input is not a valid URL, treat it as a search query
+            const searchQuery = inputUrl.trim();  // Do not encode the whole search URL
+            const searchUrl = 'https://google.com/search?q=' + encodeURIComponent(searchQuery); // Google search URL
+            iframeSrc = searchUrl;  // Directly set the Google search results URL in iframe
+        } else {
+            alert('Please enter a valid URL or search term');
+        }
+    }
 </script>
 
-{#if isUrlReady}
-    <iframe
-        src={server + (getPrecalculatedUrl(urlParam ?? '') || getCachedUrl(urlParam ?? '') || encode(urlParam ?? ''))}
-        title="Page embed"
-        style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"
-    >
-        Your browser doesn't support iframes
-    </iframe>
+<!-- Fixed Menu Bar at the Top -->
+<div class="bg-gray-900 shadow-md text-white p-2 fixed w-full top-0 z-10 flex justify-between items-center">
+    <a href="/" class="text-2xl font-mono">Home</a>
+    <div class="flex items-center space-x-3">
+        <input id="urlInput" type="text" placeholder="Enter URL or search" class="px-4 py-2 text-black rounded-sm w-72" />
+        <button on:click={changeIframeUrl} class="bg-blue-950 px-4 py-2 rounded-sm text-white">Go</button>
+    </div>
+</div>
+
+<!-- Iframe Container -->
+{#if iframeSrc}
+    <div class="absolute top-[3.5rem] left-0 right-0 bottom-0">
+        <iframe id="iframe" class="w-full h-full border-none"
+            src={iframeSrc} title="Page embed">
+            Your browser doesn't support iframes
+        </iframe>
+    </div>
 {/if}
 
-<MetaData />
-
+<!-- Lazy-loaded MetaData Component -->
+{#if MetaData}
+    <MetaData />
+{/if}
