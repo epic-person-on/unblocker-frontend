@@ -3,17 +3,17 @@
     {
       "title": "VsCode",
       "url": "https://vscode.dev",
-      "imageUrl": "https://code.visualstudio.com/opengraphimg/opengraph-blog.png"
+      "imageUrl": "assets/icons/vscode.webp"
     },
     {
       "title": "Discord",
       "url": "https://discord.com",
-      "imageUrl": "https://images-eds-ssl.xboxlive.com/image?url=4rt9.lXDC4H_93laV1_eHHFT949fUipzkiFOBH3fAiZZUCdYojwUyX2aTonS1aIwMrx6NUIsHfUHSLzjGJFxxsG72wAo9EWJR4yQWyJJaDb6rYcBtJvTvH3UoAS4JFNDaxGhmKNaMwgElLURlRFeVkLCjkfnXmWtINWZIrPGYq0-&format=source"
+      "imageUrl": "assets/icons/dc.jpg"
     },
     {
-      "title": "App 2",
-      "url": "https://app2.com",
-      "imageUrl": "https://example.com/app2-image.jpg"
+      "title": "Amazon",
+      "url": "https://amazon.com",
+      "imageUrl": "assets/icons/amazon.webp"
     }
 
   ]
