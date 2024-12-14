@@ -1,7 +1,7 @@
-module.exports = {
+export default {
 	darkMode: 'class', // Enable dark mode using the 'class' strategy
 	content: [
-	  './src/**/*.{html,js,svelte}', // Adjust to the file extensions in your project
+	  './src/**/*.{html,js,svelte}', // Adjust to your file extensions
 	],
 	theme: {
 	  extend: {
@@ -21,5 +21,5 @@ module.exports = {
 	  },
 	},
 	plugins: [],
-  }
+  };
   
