@@ -18,6 +18,7 @@
     let urlParam: string | null = null;
     let iframeSrc: string | null = null;
     let MetaData: any;
+    let isLoading = true; // Track the loading state
 
     // Function to parse and fetch URL param asynchronously
     async function fetchUrlParam() {
@@ -40,6 +41,8 @@
                 iframeSrc = server + (getPrecalculatedUrl(urlParam) || getCachedUrl(urlParam) || encode(urlParam));
             }
         }
+
+        isLoading = false; // Set loading to false after iframe is ready
     }
 
     // Lazy load the MetaData component
@@ -111,27 +114,30 @@
             const encodedUrl = encode(inputUrl); // Encode the URL
             cacheUrl(inputUrl, encodedUrl);
             iframeSrc = server + (getPrecalculatedUrl(urlParam ?? '') || getCachedUrl(urlParam ?? '') || encodedUrl);
-        } else if (inputUrl && inputUrl.trim().length > 0) {
-            // If the input is not a valid URL, treat it as a search query
-            const searchQuery = inputUrl.trim();  // Do not encode the whole search URL
-            const searchUrl = 'https://google.com/search?q=' + encodeURIComponent(searchQuery); // Google search URL
-            iframeSrc = searchUrl;  // Directly set the Google search results URL in iframe
+            isLoading = false; // Stop loading when the iframe source is set
         } else {
-            alert('Please enter a valid URL or search term');
+            alert('Please enter a valid URL');
         }
     }
 </script>
 
 <!-- Fixed Menu Bar at the Top -->
 <div class="bg-gray-900 shadow-md text-white p-2 fixed w-full top-0 z-10 flex justify-between items-center">
-    <a href="/" class="text-2xl font-mono">Home</a>
+    <a href="/" class="text-3xl font-mono">Home</a>
     <div class="flex items-center space-x-3">
-        <input id="urlInput" type="text" placeholder="Enter URL or search" class="px-4 py-2 text-black rounded-sm w-72" />
+        <input id="urlInput" type="text" placeholder="Enter URL" class="px-4 py-2 text-white bg-slate-950 rounded-sm w-96" />
         <button on:click={changeIframeUrl} class="bg-blue-950 px-4 py-2 rounded-sm text-white">Go</button>
     </div>
 </div>
 
-<!-- Iframe Container -->
+<!-- Loading Screen (Displayed while iframe is loading) -->
+{#if isLoading}
+    <div class="absolute top-[3.5rem] left-0 right-0 bottom-0 bg-gray-800 bg-opacity-75 flex justify-center items-center text-white">
+        <div class="w-12 h-12 border-4 border-t-4 border-white border-solid rounded-full animate-spin"></div>
+    </div>
+{/if}
+
+<!-- Iframe Container (Displayed once iframeSrc is ready) -->
 {#if iframeSrc}
     <div class="absolute top-[3.5rem] left-0 right-0 bottom-0">
         <iframe id="iframe" class="w-full h-full border-none"

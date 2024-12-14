@@ -44,7 +44,7 @@
   <form on:submit={handleSubmit} class="space-y-4">
     <!-- Input Field for URL -->
     <div>
-      <label for="text" class="block text-gray-800 dark:text-gray-200 font-medium mb-2 transition-all duration-500 ease-in-out">Enter a URL:</label>
+      <label for="text" class="block text-gray-800 dark:text-gray-200 font-medium mb-2 transition-all duration-500 ease-in-out">Enter a URL or search:</label>
       <input
         id="url"
         type="text" 
