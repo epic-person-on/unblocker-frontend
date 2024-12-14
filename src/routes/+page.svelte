@@ -2,7 +2,6 @@
     import { onMount } from 'svelte';
     import Form from '$lib/Form.svelte';
 	  import Navbar from '$lib/Navbar.svelte';
-    import MetaData from '$lib/scriptinjection.svelte'
   
     let isDarkMode = true;
   
@@ -43,7 +42,6 @@
       transition: background-color 0.3s ease, color 0.3s ease;
     }
   </style>
-  <MetaData />
   <!-- Main Content -->
   <main class="min-h-screen bg-gray-100 dark:bg-gray-800 transition-all duration-500 ease-in-out">
     <!-- Navigation Menu -->
