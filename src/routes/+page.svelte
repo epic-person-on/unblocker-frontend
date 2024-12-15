@@ -43,7 +43,7 @@
     }
   </style>
   <!-- Main Content -->
-  <main class="min-h-screen bg-gray-100 dark:bg-gray-800 transition-all duration-500 ease-in-out">
+  <main class="min-h-screen bg-gradient-to-r from-gray-200 to-gray-50 dark:bg-gradient-r dark:from-slate-800 dark:to-slate-700 transition-all duration-500 ease-in-out">
     <!-- Navigation Menu -->
     <nav class="bg-gray-200 dark:bg-gray-900 p-4 shadow-md">
       <div class="container mx-auto flex justify-between items-center">
