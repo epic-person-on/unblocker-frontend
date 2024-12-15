@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Spinner } from 'flowbite-svelte';
     import { onMount, afterUpdate } from 'svelte';
 
     const Servers = [
@@ -124,7 +125,7 @@
 <!-- Loading Screen (Displayed while iframe is loading) -->
 {#if isLoading}
     <div class="absolute top-[3.5rem] left-0 right-0 bottom-0 bg-gray-800 bg-opacity-75 flex justify-center items-center text-white">
-        <div class="w-12 h-12 border-4 border-t-4 border-white border-solid rounded-full animate-spin"></div>
+        <Spinner color="blue" class="w-12 h-12" />
         <br>
         <p class="text-3xl">Loading...</p>
     </div>
