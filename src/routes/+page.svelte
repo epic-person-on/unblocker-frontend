@@ -49,7 +49,7 @@
       <div class="container mx-auto flex justify-between items-center">
         <!-- Logo / Brand -->
         <div class="text-xl font-semibold text-gray-800 dark:text-white">
-          Code Tutorials
+          Unblocker 2
         </div>
       <!-- NavBar -->
         <Navbar />
