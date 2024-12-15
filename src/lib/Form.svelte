@@ -74,16 +74,16 @@
         Google
       </button>
       <button
-        on:click={() => handleQuickLinkClick('https://github.com')}
-        class="px-4 py-2 bg-gray-500 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-600 transition-all duration-300"
+        on:click={() => handleQuickLinkClick('https://youtube.com')}
+        class="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-600 transition-all duration-300"
       >
-        GitHub
+        Youtube
       </button>
       <button
-        on:click={() => handleQuickLinkClick('https://svelte.dev')}
-        class="px-4 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-600 transition-all duration-300"
+        on:click={() => handleQuickLinkClick('https://duckduckgo.com')}
+        class="px-4 py-2 bg-amber-500 text-white font-semibold rounded-lg shadow-md hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500 dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-600 transition-all duration-300"
       >
-        Svelte
+        DuckDuckGo
       </button>
     </div>
   </div>
