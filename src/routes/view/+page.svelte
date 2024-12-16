@@ -12,6 +12,22 @@
 
     const randomNumber = Math.floor(Math.random() * Servers.length);
     const server = Servers[randomNumber];
+        // Function to check if the string looks like a valid URL with optional protocol
+    const isValidUrl = (string: string): boolean => {
+        // Regular expression to match a simple valid URL (with or without protocol)
+        const urlPattern = /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z0-9]{2,}(\/[^\s]*)?$/i;
+        return urlPattern.test(string);
+    };
+
+    // Function to ensure the URL has https://
+    const addProtocolIfNeeded = (url: string): string => {
+        // If the URL doesn't have a protocol, add https://
+        if (!/^https?:\/\//i.test(url)) {
+        return `https://${url}`;
+        }
+        return url;
+    };
+
 
     let urlParam: string | null = null;
     let iframeSrc: string | null = null;
@@ -54,14 +70,6 @@
         // Handle any updates after changes here
     });
 
-    function isValidUrl(url: string): boolean {
-        try {
-            new URL(url);
-            return true;
-        } catch {
-            return false;
-        }
-    }
 
     function encode(str: string) {
         if (!str) return str;
@@ -90,20 +98,23 @@
     }
 
     function changeIframeUrl() {
+        // biome-ignore lint/style/useConst: <explanation>
         let inputUrl = (document.getElementById('urlInput') as HTMLInputElement).value;
 
-        if (inputUrl && !inputUrl.startsWith('http://') && !inputUrl.startsWith('https://')) {
-            inputUrl = `https://${inputUrl}`;
-        }
 
-        if (inputUrl && isValidUrl(inputUrl)) {
-            urlParam = inputUrl;
-            const encodedUrl = encode(inputUrl);
+        if (!isValidUrl(inputUrl)) {
+            urlParam=inputUrl;
+            const encodedUrl = encode(`https://google.com/search?q=${inputUrl}`);
+            cacheUrl(`https://google.com/search?q=${inputUrl}`, encodedUrl)
+            iframeSrc = server + (getPrecalculatedUrl(urlParam ?? '') || getCachedUrl(urlParam ?? '') || encodedUrl);
+
+        } else {
+            urlParam = addProtocolIfNeeded(inputUrl.trim());
+            const encodedUrl = encode(urlParam);
             cacheUrl(inputUrl, encodedUrl);
             iframeSrc = server + (getPrecalculatedUrl(urlParam ?? '') || getCachedUrl(urlParam ?? '') || encodedUrl);
             isLoading = false;
-        } else {
-            alert('Please enter a valid URL');
+
         }
     }
 
@@ -117,7 +128,7 @@
 <div class="bg-gray-900 shadow-md text-white p-2 fixed w-full top-0 z-10 flex justify-between items-center">
     <a href="/" class="text-3xl font-mono">Home</a>
     <div class="flex items-center space-x-3">
-        <input id="urlInput" type="text" placeholder="Enter URL" class="px-4 py-2 text-white bg-gradient-to-r from-slate-950 to-slate-900 rounded-sm w-96" />
+        <input id="urlInput" type="text" placeholder="Enter URL or search" class="px-4 py-2 text-white bg-gradient-to-r from-slate-950 to-slate-900 rounded-sm w-96" />
         <button on:click={changeIframeUrl} class="bg-blue-950 px-4 py-2 rounded-sm text-white">Go</button>
     </div>
 </div>

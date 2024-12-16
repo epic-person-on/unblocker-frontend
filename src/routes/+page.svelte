@@ -12,7 +12,7 @@
         isDarkMode = savedTheme === 'dark';
       } else {
         // Default to light mode if no preference is saved
-        isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        isDarkMode = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
       }
       updateTheme();
     });

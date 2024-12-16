@@ -12,7 +12,7 @@
   const addProtocolIfNeeded = (url: string): string => {
     // If the URL doesn't have a protocol, add https://
     if (!/^https?:\/\//i.test(url)) {
-      return 'https://' + url;
+      return `https://${url}`;
     }
     return url;
   };
@@ -23,14 +23,14 @@
 
     // If it's not a valid URL, treat it as a Google search query
     if (!isValidUrl(url)) {
-      url = 'https://google.com/search?q=' + encodeURIComponent(url);
+      url = `https://google.com/search?q=${encodeURIComponent(url)}`;
     } else {
       // If it's a valid URL, ensure it starts with https://
       url = addProtocolIfNeeded(url);
     }
 
     // Redirect to the final URL
-    window.location.href = '/view?url=' + encodeURIComponent(url);
+    window.location.href = `/view?url=${encodeURIComponent(url)}`;
   };
 
   // Function to handle clicking a quick link
