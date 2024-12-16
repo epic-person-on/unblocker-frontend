@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Spinner } from 'flowbite-svelte';
-    import { onMount, afterUpdate } from 'svelte';
+    import { onMount, afterUpdate, type Component } from 'svelte';
 
     const Servers = [
         'https://powayusd-production.up.railway.app/a/',
@@ -15,7 +15,7 @@
 
     let urlParam: string | null = null;
     let iframeSrc: string | null = null;
-    let MetaData: any;
+    let MetaData: Component;
     let isLoading = true;
 
     async function fetchUrlParam() {
@@ -93,7 +93,7 @@
         let inputUrl = (document.getElementById('urlInput') as HTMLInputElement).value;
 
         if (inputUrl && !inputUrl.startsWith('http://') && !inputUrl.startsWith('https://')) {
-            inputUrl = 'https://' + inputUrl;
+            inputUrl = `https://${inputUrl}`;
         }
 
         if (inputUrl && isValidUrl(inputUrl)) {
