@@ -1,33 +1,33 @@
 <script lang="ts">
     import { Spinner } from 'flowbite-svelte';
     import { onMount, afterUpdate, type Component } from 'svelte';
+    
+    // Import the JSON file
+    import precalculatedUrlsData from '$lib/precalculatedUrls.json';
+
+    // Precalculated URLs loaded from the JSON file
+    const precalculatedUrls: { [key: string]: string } = precalculatedUrlsData;
 
     const Servers = [
         'https://powayusd-production.up.railway.app/a/',
     ];
 
-    const precalculatedUrls: { [key: string]: string } = {
-        'https://google.com': 'hvtrs8%2F-gmoelg.aoo',
-    };
-
     const randomNumber = Math.floor(Math.random() * Servers.length);
     const server = Servers[randomNumber];
-        // Function to check if the string looks like a valid URL with optional protocol
+    
+    // Function to check if the string looks like a valid URL with optional protocol
     const isValidUrl = (string: string): boolean => {
-        // Regular expression to match a simple valid URL (with or without protocol)
         const urlPattern = /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z0-9]{2,}(\/[^\s]*)?$/i;
         return urlPattern.test(string);
     };
 
     // Function to ensure the URL has https://
     const addProtocolIfNeeded = (url: string): string => {
-        // If the URL doesn't have a protocol, add https://
         if (!/^https?:\/\//i.test(url)) {
-        return `https://${url}`;
+            return `https://${url}`;
         }
         return url;
     };
-
 
     let urlParam: string | null = null;
     let iframeSrc: string | null = null;
@@ -70,7 +70,6 @@
         // Handle any updates after changes here
     });
 
-
     function encode(str: string) {
         if (!str) return str;
         return encodeURIComponent(
@@ -98,27 +97,23 @@
     }
 
     function changeIframeUrl() {
-        // biome-ignore lint/style/useConst: <explanation>
+        // biome-ignore lint/style/useConst: Its not broken so don't fix it
         let inputUrl = (document.getElementById('urlInput') as HTMLInputElement).value;
 
-
         if (!isValidUrl(inputUrl)) {
-            urlParam=inputUrl;
+            urlParam = inputUrl;
             const encodedUrl = encode(`https://google.com/search?q=${inputUrl}`);
-            cacheUrl(`https://google.com/search?q=${inputUrl}`, encodedUrl)
+            cacheUrl(`https://google.com/search?q=${inputUrl}`, encodedUrl);
             iframeSrc = server + (getPrecalculatedUrl(urlParam ?? '') || getCachedUrl(urlParam ?? '') || encodedUrl);
-
         } else {
             urlParam = addProtocolIfNeeded(inputUrl.trim());
             const encodedUrl = encode(urlParam);
             cacheUrl(inputUrl, encodedUrl);
             iframeSrc = server + (getPrecalculatedUrl(urlParam ?? '') || getCachedUrl(urlParam ?? '') || encodedUrl);
             isLoading = false;
-
         }
     }
 
-    // Handler to be called when iframe finishes loading
     function handleIframeLoad() {
         isLoading = false;
     }

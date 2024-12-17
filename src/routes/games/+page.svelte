@@ -16,7 +16,7 @@
       isDarkMode = savedTheme === 'dark';
     } else {
       // Default to light mode if no preference is saved
-      isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      isDarkMode = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
     }
     updateTheme();
 
@@ -49,6 +49,7 @@
   };
 </script>
 
+<!-- svelte-ignore css_unused_selector -->
 <style>
   body {
     transition: background-color 0.3s ease, color 0.3s ease;
