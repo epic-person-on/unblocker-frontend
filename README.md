@@ -12,7 +12,7 @@ to contribute fork this and give it a star ⭐
 next create a Github codespace and start developing. 
 one you are done with your edits create a pull request for me to review. 
 if you would like to add another server to the serverpool then open a issue
-in the issue tab.
+in the issue tab. You can also contribute the to the amount of precalculated url using this tool: [The tool](https://www.typescriptlang.org/play/?#code/AQ4MwVwOwYwFwJYHsrAKayQEzQCgM5wBOAXMIUQlAOYCUwA3gFCivAJjC4CEF9RaOBCKoKAbhZsQAemnAAomDAIYCDHHSYsVasAC2aGAAsAhlAT49XKEmACs0LGY16TAB2BI3aIicQpaSSkBIRFNGGw0AFUAJQBJAGEkPTcUdVwgqVAKADp8NwAbBDhcAHJSwKyq4BzXN1xcYxMiABp2KCx6AF4APnasYABSYAAmYAB+YABlYh0csCJkhNMiJJxGlZym1ciAQRKABnoAPVH6Mm3K6qkcgCskKjKKzNZaCVYAXyYIqHwkArQOQKSGouAwEXWACIjHA4G58CRZJDaG8gA)
 
 ```bash
 npm run dev
